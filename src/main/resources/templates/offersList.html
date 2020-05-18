@@ -1,13 +1,7 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>Furka4U</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
+  layout:decorator="layout">
 
 <head>
   <title>Lista ofert</title>
@@ -16,7 +10,26 @@
 </head>
 
 <body>
-        <section>
+  
+        <section layout:fragment="content">
+
+          <div id="offerFilter" class="panel panel-default">
+            <div class="panel-heading">Szukaj ofert</div>
+            <div class="panel-body">
+              <form th:object = "${offerFilter}" id="offerFilterForm" action="/" method="get" class="form-inline">
+                <select class="form-control" th:field="*{manufacturerId}">
+                  <option value="">Marka</option>
+                  <option th:each="manufacturer : ${carManufacturers}" th:value="${manufacturer.id}" th:text="${manufacturer.name}"></option>
+                </select>
+                <select class="form-control">
+                  <option value="">Model</option>
+                </select>
+
+                <input type="submit" value="Filtruj" class="form-control" />
+              </form>
+            </div>
+          </div>
+
           <table class="table">
             <tr>
               <th>Tytuł</th>
