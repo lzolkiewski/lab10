@@ -8,8 +8,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "car_manufacturer")
-public class CarManufacturer {
+@Table(name = "body_style")
+public class BodyStyle {
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -19,7 +19,7 @@ public class CarManufacturer {
     @Column(name = "name")
     private String name;
 
-    public CarManufacturer() {
+    public BodyStyle() {
     }
 
     /**
