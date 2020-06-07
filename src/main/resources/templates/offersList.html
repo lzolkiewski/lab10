@@ -38,6 +38,8 @@
             <option th:each="fuel : ${fuelTypes}" th:value="${fuel.id}" th:text="${fuel.name}"></option>
           </select>
 
+          <input type="text" class="form-control" th:field="*{description}" placeholder="szukaj po opisie">
+
           <input type="submit" value="Filtruj" class="form-control"/>
         </form>
       </div>

@@ -6,12 +6,21 @@ public class OfferFilter {
     private Integer yearFrom;
     private Integer yearTo;
     private Integer fuelTypeId;
+    private String description;
 
     /**
      * @return the manufacturerId
      */
     public Integer getManufacturerId() {
         return manufacturerId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getFuelTypeId() {

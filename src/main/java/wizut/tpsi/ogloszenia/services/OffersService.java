@@ -143,7 +143,6 @@ public class OffersService {
                     jpql += " o.year <= :to";
                 }
             }
-
         }
         if (filter.getFuelTypeId() != null) {
             if (filter.getManufacturerId() != null || filter.getModelId() != null || filter.getYearFrom() != null
@@ -175,6 +174,12 @@ public class OffersService {
         if (filter.getFuelTypeId() != null)
             query.setParameter("fltid", filter.getFuelTypeId());
 
+        return query.getResultList();
+    }
+
+    public List<Offer> getOffersByDescription(String desc) {
+        String jpql = "select o from Offer o where o.description LIKE '%" + desc + "%'";
+        TypedQuery<Offer> query = entityManager.createQuery(jpql, Offer.class);
         return query.getResultList();
     }
 

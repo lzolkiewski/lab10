@@ -70,6 +70,8 @@ public class HomeController {
                 model.addAttribute("carModels", service.getCarModels(offerFilter.getManufacturerId()));
             }
             offers = service.getOffers(offerFilter, offerSorter);
+        } else if (offerFilter.getDescription() != null) {
+            offers = service.getOffersByDescription(offerFilter.getDescription());
         } else {
             offers = service.getOffers();
 
