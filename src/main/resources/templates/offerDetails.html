@@ -12,7 +12,7 @@
     <section layout:fragment="content">
 
         <h1 th:text="${offer.title}"></h1>
-        
+
         <h2>
             Cena: <span th:text="${#numbers.formatDecimal(offer.price, 0, 'WHITESPACE', 0,'COMMA')}"></span> zł
         </h2>
@@ -34,14 +34,12 @@
                 <th>Pojemność:</th>
                 <td th:text="|*{engineSize} l|"></td>
                 <th>Moc silnika:</th>
-                <td th:text="|*{enginePower} km|"></td>
+                <td th:text="|*{enginePower} Km|"></td>
             </tr>
             <tr>
                 <th>Przebieg:</th>
-                <td class="text-right">
-                    <span th:text="${#numbers.formatDecimal(offer.mileage, 0, 'WHITESPACE', 0,'COMMA')}"></span> km
-                </td>
-                
+                <td><span th:text="${#numbers.formatDecimal(offer.mileage, 0, 'WHITESPACE', 0,'COMMA')}"></span> km</td>
+
                 <th>Rok Produkcji:</th>
                 <td th:text="*{year}"></td>
             </tr>
@@ -50,7 +48,7 @@
                 <td th:text = "*{fuelType.name}"></td>
             </tr>
         </table>
-        
+
         <div th:text="${offer.description}" class="well"></div>
     </section>
 </body>

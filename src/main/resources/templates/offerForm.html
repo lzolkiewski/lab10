@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+
+<head>
+    <title th:text="${header}"></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <section layout:fragment="content">
+        <form th:action="${action}" method="POST" class="form-horizontal" th:object="${offer}">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Tytuł:</label>
+                <div class="col-sm-10" th:classappend="${#fields.hasErrors('*{title}')?'has-error':''}">
+                    <input type="text" th:field="*{title}" class="form-control" />
+                    <span th:if="${#fields.hasErrors('*{title}')}" style="color: red;">Dodaj tytuł o długości od 5 do 255 znaków</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Rocznik:</label>
+                <div class="col-sm-4" th:classappend="${#fields.hasErrors('*{year}')?'has-error':''}">
+                    <input type="number" th:field="*{year}" class="form-control" />
+                    <span th:if="${#fields.hasErrors('*{year}')}" style="color: red;">Minimalny rocznik 1900</span>
+                </div>
+                <label class="col-sm-2 control-label">Przebieg:</label>
+                <div class="col-sm-4" th:classappend="${#fields.hasErrors('*{mileage}')?'has-error':''}">
+                    <input type="number" th:field="*{mileage}" class="form-control" />
+                    <span th:if="${#fields.hasErrors('*{mileage}')}" style="color: red;">Wartość nie mniejsza niż 0</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Pojemność silnika:</label>
+                <div class="col-sm-4" th:classappend="${#fields.hasErrors('*{engineSize}')?'has-error':''}">
+                    <input type="number" th:field="*{engineSize}" class="form-control" />
+                </div>
+                <label class="col-sm-2 control-label">Moc silnika:</label>
+                <div class="col-sm-4" th:classappend="${#fields.hasErrors('*{enginePower}')?'has-error':''}">
+                    <input type="number" th:field="*{enginePower}" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Liczba drzwi:</label>
+                <div class="col-sm-4" th:classappend="${#fields.hasErrors('*{doors}')?'has-error':''}">
+                    <input type="number" th:field="*{doors}" class="form-control" />
+                    <span th:if="${#fields.hasErrors('*{doors}')}" style="color: red;">Liczba drzwi od 1 do 5</span>
+                </div>
+                <label class="col-sm-2 control-label">Kolor:</label>
+                <div class="col-sm-4" th:classappend="${#fields.hasErrors('*{colour}')?'has-error':''}">
+                    <input type="text" th:field="*{colour}" class="form-control" />
+                    <span th:if="${#fields.hasErrors('*{colour}')}" style="color: red;">Kolor powinien mieć od 3 do 30 znaków</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Model:</label>
+                <div class="col-sm-10">
+                    <select th:field="*{model.id}" class="form-control">
+                        <option th:each="model : ${carModels}" th:value="${model.id}" th:text="|${model.manufacturer.name} ${model.name}|"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Nadwozie:</label>
+                <div class="col-sm-4">
+                    <select th:field="*{bodyStyle.id}" class="form-control">
+                        <option th:each="body_style : ${bodyStyles}" th:value="${body_style.id}" th:text="${body_style.name}"></option>
+                    </select>
+                </div>
+                <label class="col-sm-2 control-label">Rodzaj paliwa:</label>
+                <div class="col-sm-4">
+                    <select th:field="*{fuelType.id}" class="form-control">
+                        <option th:each="fuel_type : ${fuelTypes}" th:value="${fuel_type.id}" th:text="${fuel_type.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Cena:</label>
+                <div class="col-sm-4" th:classappend="${#fields.hasErrors('*{price}')?'has-error':''}">
+                    <input type="number" th:field="*{price}" class="form-control" />
+                    <span th:if="${#fields.hasErrors('*{price}')}" style="color: red;">Cena minimalna 0</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Opis:</label>
+                <div class="col-sm-10" th:classappend="${#fields.hasErrors('*{description}')?'has-error':''}">
+                    <textarea th:field="*{description}" class="form-control" rows="5"></textarea>
+                    <span th:if="${#fields.hasErrors('*{description}')}" style="color: red;">Opis powinien zawierać przynajmniej 5 znaków</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <input type="hidden" th:field="*{id}">
+                    <input type="submit" value="Zapisz" class="form-control btn btn-primary"/>
+                </div>
+                <div class="col-sm-4">
+                    <a href="/" class="btn btn-default">Anuluj</a>
+                </div>
+            </div>
+        </form>
+
+    </section>
+</body>
+
+</html>

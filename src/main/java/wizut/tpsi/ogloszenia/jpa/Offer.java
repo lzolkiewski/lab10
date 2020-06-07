@@ -1,6 +1,7 @@
 package wizut.tpsi.ogloszenia.jpa;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -22,47 +26,67 @@ public class Offer {
     @Column(name = "id")
     private Integer id;
 
-    @Size(max = 255)
+    @Size(max = 255, min = 5) // max min długość
     @Column(name = "title")
+    @NotNull
     private String title;
 
     @Column(name = "year")
+    @NotNull // nie null
+    @Min(1900) // minimalna wartość
     private Integer year;
 
     @Column(name = "mileage")
+    @NotNull
+    @Min(0)
     private Integer mileage;
 
     @Column(name = "engine_size")
+    @Min(0)
     private BigDecimal engineSize;
 
     @Column(name = "engine_power")
+    @Min(0)
     private Integer enginePower;
 
     @Column(name = "doors")
+    @NotNull
+    @Min(1)
+    @Max(5)
     private Integer doors;
 
-    @Size(max = 30)
+    @Size(max = 30, min = 3)
     @Column(name = "colour")
+    @NotNull
     private String colour;
 
     @Lob
-    @Size(max = 65535)
+    @Size(max = 65535, min = 5)
     @Column(name = "description")
+    @NotNull
     private String description;
 
     @Column(name = "price")
+    @NotNull
+    @Min(0)
     private Integer price;
+
+    @Column(name = "add_date")
+    private Date addDate;
 
     @JoinColumn(name = "model_id", referencedColumnName = "id")
     @ManyToOne
+    @NotNull
     private CarModel model;
 
     @JoinColumn(name = "body_style_id", referencedColumnName = "id")
     @ManyToOne
+    @NotNull
     private BodyStyle bodyStyle;
 
     @JoinColumn(name = "fuel_type_id", referencedColumnName = "id")
     @ManyToOne
+    @NotNull
     private FuelType fuelType;
 
     public Offer() {
@@ -251,4 +275,11 @@ public class Offer {
         this.year = year;
     }
 
+    public Date getAddDate() {
+        return addDate;
+    }
+
+    public void setAddDate(Date addDate) {
+        this.addDate = addDate;
+    }
 }
