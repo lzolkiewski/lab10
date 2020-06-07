@@ -26,17 +26,20 @@ public class CarModel {
     @ManyToOne
     private CarManufacturer manufacturer;
 
+    public CarModel() {
+    }
+
     /**
-     * @return the carManufacturer
+     * @return the manufacturer
      */
-    public CarManufacturer getCarManufacturer_id() {
+    public CarManufacturer getManufacturer() {
         return manufacturer;
     }
 
     /**
-     * @param manufacturer the carManufacturer to set
+     * @param manufacturer the manufacturer to set
      */
-    public void setCarManufacturer_id(CarManufacturer manufacturer) {
+    public void setManufacturer(CarManufacturer manufacturer) {
         this.manufacturer = manufacturer;
     }
 
@@ -44,7 +47,7 @@ public class CarModel {
      * @return the id
      */
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     /**
@@ -58,7 +61,7 @@ public class CarModel {
      * @return the name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
