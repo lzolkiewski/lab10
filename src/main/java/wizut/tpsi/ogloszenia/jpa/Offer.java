@@ -1,6 +1,7 @@
 package wizut.tpsi.ogloszenia.jpa;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -69,6 +70,9 @@ public class Offer {
     @NotNull
     @Min(0)
     private Integer price;
+
+    @Column(name = "add_date")
+    private Date addDate;
 
     @JoinColumn(name = "model_id", referencedColumnName = "id")
     @ManyToOne
@@ -271,4 +275,11 @@ public class Offer {
         this.year = year;
     }
 
+    public Date getAddDate() {
+        return addDate;
+    }
+
+    public void setAddDate(Date addDate) {
+        this.addDate = addDate;
+    }
 }

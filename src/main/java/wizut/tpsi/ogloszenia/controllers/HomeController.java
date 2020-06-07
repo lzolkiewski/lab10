@@ -1,11 +1,11 @@
 package wizut.tpsi.ogloszenia.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +19,8 @@ import wizut.tpsi.ogloszenia.jpa.FuelType;
 import wizut.tpsi.ogloszenia.jpa.Offer;
 import wizut.tpsi.ogloszenia.services.OffersService;
 import wizut.tpsi.ogloszenia.web.OfferFilter;
-import wizut.tpsi.ogloszenia.web.OfferRepository;
+// import wizut.tpsi.ogloszenia.web.OfferRepository;
+import wizut.tpsi.ogloszenia.web.OfferSorter;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +32,8 @@ public class HomeController {
     @Autowired
     private OffersService service;
 
-    @Autowired
-    private OfferRepository offerRepo;
+    // @Autowired
+    // private OfferRepository offerRepo;
 
     /**
      *
@@ -53,29 +54,14 @@ public class HomeController {
      * @return the offersList.html (Furka4U part 2, 3, 4)
      */
     @RequestMapping("/")
-    public String offersList(Model model, OfferFilter offerFilter, @RequestParam(defaultValue = "0") int page) {
+    public String offersList(Model model, OfferFilter offerFilter, OfferSorter offerSorter,
+            @RequestParam(defaultValue = "0") int page) {
         List<Offer> offers;
         List<CarManufacturer> carManufacturers = service.getCarManufacturers();
         List<FuelType> fuelTypes = service.getFuelTypes();
-        List<CarModel> carModels = service.getCarModels();
 
         model.addAttribute("carManufacturers", carManufacturers);
         model.addAttribute("fuelTypes", fuelTypes);
-
-        if (offerFilter.getManufacturerId() != null) {
-            model.addAttribute("carModels", service.getCarModels(offerFilter.getManufacturerId()));
-            if (offerFilter.getModelId() != null) {
-                offers = service.getOffersByModel(offerFilter.getModelId());
-            } else {
-                offers = service.getOffersByManufacturer(offerFilter.getManufacturerId());
-            }
-        } else if (offerFilter.getYearFrom() != null || offerFilter.getYearTo() != null) {
-            offers = service.getOfferByYear(offerFilter.getYearFrom(), offerFilter.getYearTo());
-        } else if (offerFilter.getFuelTypeId() != null) {
-            offers = service.getOffersByFuelType(offerFilter.getFuelTypeId());
-        } else {
-            offers = service.getOffers();
-        } // showing either no models or models belonging to exact manufacturer
 
         if (offerFilter.getManufacturerId() != null || offerFilter.getModelId() != null
                 || offerFilter.getYearFrom() != null || offerFilter.getYearTo() != null
@@ -83,9 +69,13 @@ public class HomeController {
             if (offerFilter.getManufacturerId() != null) {
                 model.addAttribute("carModels", service.getCarModels(offerFilter.getManufacturerId()));
             }
-            offers = service.getOffers(offerFilter);
+            offers = service.getOffers(offerFilter, offerSorter);
         } else {
             offers = service.getOffers();
+
+            if (offerSorter.getPrice() != null || offerSorter.getYear() != null || offerSorter.getAddDate() != null) {
+                offers = service.getOffersInOrder(offerSorter);
+            }
         }
 
         model.addAttribute("offers", offers);
@@ -114,6 +104,7 @@ public class HomeController {
 
             return "offerForm";
         }
+        offer.setAddDate(new Date());
         offer = service.createOffer(offer);
 
         return "redirect:/offer/" + offer.getId();

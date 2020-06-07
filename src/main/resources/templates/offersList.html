@@ -42,7 +42,17 @@
         </form>
       </div>
     </div>
-
+    <!-- Sortowanie ofert -->
+    <div id="offerSorter" class="panel panel-default">
+      <div class="panel-heading">Filtruj oferty</div>
+      <div class="panel-body">
+          <form action="/" method="GET" class="form-inline" th:object="${offerSorter}" id="offerSorterForm">
+            <a href="/?year=1" class="btn btn-info">Rok produkcji</a>
+            <a href="/?price=1" class="btn btn-info">Cena</a>
+            <a href="/?addDate=1" class="btn btn-info">Data dodania</a>
+          </form>
+      </div>
+    </div>
     <!-- wyświetlanie ofert -->
     <table class="table">
       <tr>

@@ -15,6 +15,7 @@ import wizut.tpsi.ogloszenia.jpa.CarModel;
 import wizut.tpsi.ogloszenia.jpa.FuelType;
 import wizut.tpsi.ogloszenia.jpa.Offer;
 import wizut.tpsi.ogloszenia.web.OfferFilter;
+import wizut.tpsi.ogloszenia.web.OfferSorter;
 
 @Service
 @Transactional
@@ -118,7 +119,7 @@ public class OffersService {
 
     }
 
-    public List<Offer> getOffers(OfferFilter filter) {
+    public List<Offer> getOffers(OfferFilter filter, OfferSorter sorter) {
         String jpql = "select o from Offer o where";
         if (filter.getManufacturerId() != null) {
             jpql += " o.model.manufacturer.id = :manuid";
@@ -151,7 +152,16 @@ public class OffersService {
             }
             jpql += " o.fuelType.id = :fltid";
         }
-        jpql += " order by o.title";
+
+        if (sorter.getPrice() != null) {
+            jpql += " order by o.price";
+        } else if (sorter.getYear() != null) {
+            jpql += " order by o.year";
+        } else if (sorter.getAddDate() != null) {
+            jpql += " order by o.addDate";
+        } else {
+            jpql += " order by o.title";
+        }
 
         TypedQuery<Offer> query = entityManager.createQuery(jpql, Offer.class);
         if (filter.getManufacturerId() != null)
@@ -183,6 +193,20 @@ public class OffersService {
      */
     public List<Offer> getOffers() {
         String jpql = "select offer from Offer offer order by offer.title";
+        TypedQuery<Offer> query = entityManager.createQuery(jpql, Offer.class);
+        List<Offer> result = query.getResultList();
+        return result;
+    }
+
+    public List<Offer> getOffersInOrder(OfferSorter offerSorter) {
+        String jpql = "select offer from Offer offer order by offer.title";
+        if (offerSorter.getPrice() != null) {
+            jpql = "select offer from Offer offer order by offer.price";
+        } else if (offerSorter.getYear() != null) {
+            jpql = "select offer from Offer offer order by offer.year";
+        } else {
+            jpql = "select offer from Offer offer order by offer.addDate";
+        }
         TypedQuery<Offer> query = entityManager.createQuery(jpql, Offer.class);
         List<Offer> result = query.getResultList();
         return result;
