@@ -34,10 +34,12 @@
                 <label class="col-sm-2 control-label">Pojemność silnika:</label>
                 <div class="col-sm-4" th:classappend="${#fields.hasErrors('*{engineSize}')?'has-error':''}">
                     <input type="number" th:field="*{engineSize}" class="form-control" />
+                    <span th:if="${#fields.hasErrors('*{engineSize}')}" style="color: red;">Wartość nie mniejsza niż 0</span>
                 </div>
                 <label class="col-sm-2 control-label">Moc silnika:</label>
                 <div class="col-sm-4" th:classappend="${#fields.hasErrors('*{enginePower}')?'has-error':''}">
                     <input type="number" th:field="*{enginePower}" class="form-control" />
+                    <span th:if="${#fields.hasErrors('*{enginePower}')}" style="color: red;">Wartość nie mniejsza niż 0</span>
                 </div>
             </div>
             <div class="form-group">
